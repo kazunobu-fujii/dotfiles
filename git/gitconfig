@@ -1,0 +1,7 @@
+[user]
+	name = FUJII Kazunobu
+	email = fujii.kazunobu@gmail.com
+[color]
+	ui = auto
+[core]
+	editor = /usr/bin/vim
