@@ -4,10 +4,11 @@ set nocompatible
 " https://github.com/Shougo/neobundle.vim
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#begin(expand('~/.vim/bundle/'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
 endif
+
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
 
@@ -72,6 +73,44 @@ vmap <silent> ,ss :VimShellSendString<CR>
 " 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
 nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 
+" vim-go
+NeoBundle 'fatih/vim-go'
+
+" tagbar
+NeoBundle 'majutsushi/tagbar'
+let g:tagbar_autoshowtag = 1
+
+" gotags
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
+
+call neobundle#end()
+
 filetype plugin on
 
 " 行番号
@@ -121,7 +160,14 @@ set nobackup
 
 " ステータス
 set laststatus=2
-set statusline=%F%r%h%=
+set statusline=%F%m%r%h%w
+set statusline+=\%=%{tagbar#currenttag('[%s]','')}
+set statusline+=\[FORMAT=%{&ff}]\[TYPE=%Y]\[ASCII=\%03.3b]\[HEX=\%02.2B]\[POS=%04l,%04v][%03p%%]\[LEN=%L]
 
 " 補間
 set wildmenu wildmode=list:full
+
+" tagbar
+let g:tagbar_left = 0
+let g:tagbar_autofocus = 1
+nmap <F8> :TagbarToggle<CR>
