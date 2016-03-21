@@ -8,40 +8,37 @@ endif
 
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
-
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
-
-" vim-rails
-NeoBundle 'tpope/vim-rails', { 'autoload' : {
-      \ 'filetypes' : ['haml', 'ruby', 'eruby'] }}
-
-" emmet-vim
+NeoBundle 'tpope/vim-rails', { 'autoload' : { 'filetypes' : ['haml', 'ruby', 'eruby'] }}
 NeoBundle 'mattn/emmet-vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'rust-lang/rust.vim'
+call neobundle#end()
 
 " RuboCop
-NeoBundle 'scrooloose/syntastic'
-let g:syntastic_mode_map = { 'mode': 'passive',
-            \ 'active_filetypes': ['ruby'] }
-let g:syntastic_ruby_checkers = ['rubocop']
-"let g:syntastic_quiet_warnings = 0
-let g:syntastic_quiet_messages = {'level': 'warnings'}
+let g:syntastic_mode_map={ 'mode': 'passive', 'active_filetypes': ['ruby'] }
+let g:syntastic_ruby_checkers=['rubocop']
+"let g:syntastic_quiet_warnings=0
+let g:syntastic_quiet_messages={'level': 'warnings'}
 
 " neocomplcache
-NeoBundle 'Shougo/neocomplcache'
 " Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
+let g:acp_enableAtStartup=0
 " Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_at_startup=1
 " Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_smart_case=1
 " Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplcache_min_syntax_length=3
+let g:neocomplcache_lock_buffer_name_pattern='\*ku\*'
 " Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default' : ''
-    \ }
+let g:neocomplcache_dictionary_filetype_lists={ 'default' : '' }
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -50,18 +47,14 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
+  let g:neocomplcache_omni_patterns={}
 endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" surround
-NeoBundle 'tpope/vim-surround'
+let g:neocomplcache_omni_patterns.ruby='[^. *\t]\.\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.php='[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c='[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_omni_patterns.cpp='[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " VimShell
-NeoBundle 'Shougo/vimshell'
 " ,is: シェルを起動
 nnoremap <silent> ,is :VimShell<CR>
 " ,ipy: pythonを非同期で起動
@@ -72,13 +65,6 @@ nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 vmap <silent> ,ss :VimShellSendString<CR>
 " 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
 nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-
-" vim-go
-NeoBundle 'fatih/vim-go'
-
-" tagbar
-NeoBundle 'majutsushi/tagbar'
-let g:tagbar_autoshowtag = 1
 
 " gotags
 let g:tagbar_type_go = {
@@ -110,10 +96,13 @@ let g:tagbar_type_go = {
     \ }
 
 " Rust
-NeoBundle 'rust-lang/rust.vim'
-let g:rustfmt_autosave = 1
+let g:rustfmt_autosave=1
 
-call neobundle#end()
+" tagbar
+let g:tagbar_left=0
+let g:tagbar_autofocus=1
+let g:tagbar_autoshowtag=1
+nmap <F8> :TagbarToggle<CR>
 
 filetype plugin on
 
@@ -159,8 +148,9 @@ vmap <silent> <Tab> <C-o>15<Right>
 nmap <silent> <S-Tab> 15<Left>
 vmap <silent> <S-Tab> <C-o>15<Left>
 
-" 保存
-set nobackup
+" バックアップとスワップ
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp
 
 " ステータス
 set laststatus=2
@@ -171,7 +161,3 @@ set statusline+=\[FORMAT=%{&ff}]\[TYPE=%Y]\[ASCII=\%03.3b]\[HEX=\%02.2B]\[POS=%0
 " 補間
 set wildmenu wildmode=list:full
 
-" tagbar
-let g:tagbar_left = 0
-let g:tagbar_autofocus = 1
-nmap <F8> :TagbarToggle<CR>
