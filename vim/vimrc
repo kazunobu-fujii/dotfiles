@@ -109,6 +109,10 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
     \ }
 
+" Rust
+NeoBundle 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+
 call neobundle#end()
 
 filetype plugin on
